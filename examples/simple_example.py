@@ -1,5 +1,8 @@
 import numpy as np
 import qt
+from plot import *
+
+print locals()
 
 d = qt.Data()
 d.add_coordinate('X')
@@ -10,7 +13,7 @@ p = plot(d)
 # Inform wrapper that a measurement has started
 qt.mstart()
 
-for x in arange(0, 40, 0.1):
+for x in np.arange(0, 40, 0.1):
     y = np.sin(x) + np.random.rand()/10
     d.add_data_point(x, y)
 

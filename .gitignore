@@ -2,5 +2,6 @@
 *.pyc
 qtlab.log
 qtlab.cfg
-data
+data/
 tmp
+3rd_party
