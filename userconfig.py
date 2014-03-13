@@ -30,7 +30,7 @@ config['servers'] = (
 config['instrument_server'] = False
 
 ## This sets a default location for data-storage
-#config['datadir'] = 'C:/data'
+config['datadir'] = 'C:/data'
 
 ## This sets a default directory for qtlab to start in
 #config['startdir'] = 'C:/scripts'
@@ -45,7 +45,7 @@ config['exitscript'] = []       #e.g. ['closescript1.py', 'closescript2.py']
 # global namespace as functions.
 config['scriptdirs'] = [
 		'C:/scripts',
-        'examples/scripts',
+#        'examples/scripts',
 #        'd:/scripts',
 ]
 

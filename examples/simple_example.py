@@ -1,3 +1,8 @@
+"""
+A simple example script
+"""
+
+
 import numpy as np
 import qt
 from plot import *
