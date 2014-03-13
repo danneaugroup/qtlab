@@ -1,3 +1,4 @@
+import os
 # This file contains user-specific settings for qtlab.
 # It is run as a regular python script.
 
@@ -54,7 +55,7 @@ for path,dirs,files in os.walk('C:/scripts'):
 		dirs.remove(".git")
 		
 	for d in dirs:
-		config['scriptdirs'].append(d)
+		config['scriptdirs'].append(os.path.join(path,d))
 
 print "Scriptdirs:"
 print config['scriptdirs']

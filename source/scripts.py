@@ -70,8 +70,12 @@ class Scripts():
 
     def __repr__(self):
         s = 'Script list:'
+        sl=[]
         for scr in self.get_list():
-            s += '\n\t%s' % scr
+            sl.append((scr,os.path.split(os.path.abspath(self._cache[scr]._fn))[0]))
+        sl = sorted(sl,key = lambda sl: sl[1])
+        for key in sl:
+            s += '\n\t%s \t key: %s' % (key[1],key[0].ljust(30))
         return s
 
     def __getitem__(self, item):
