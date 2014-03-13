@@ -48,6 +48,17 @@ config['scriptdirs'] = [
 #        'd:/scripts',
 ]
 
+# Add subdirectories of scripts folder
+for path,dirs,files in os.walk('C:/scripts'):
+	if ".git" in dirs:
+		dirs.remove(".git")
+		
+	for d in dirs:
+		config['scriptdirs'].append(d)
+
+print "Scriptdirs:"
+print config['scriptdirs']
+
 ## This sets a user instrument directory
 ## Any instrument drivers placed here will take
 ## preference over the general instrument drivers

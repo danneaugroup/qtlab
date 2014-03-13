@@ -5,3 +5,5 @@ qtlab.cfg
 data/
 tmp
 3rd_party
+*.lock
+*.cfg
