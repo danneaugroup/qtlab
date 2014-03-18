@@ -1,7 +1,7 @@
-.gitignore
 *.pyc
 qtlab.log
 qtlab.cfg
+userconfig.py
 data/
 tmp
 3rd_party
