@@ -70,19 +70,24 @@ class itest(Instrument):
 #         self._modes = ['VOLT:DC', 'CURR:DC']  # DC volt or DC curr mode
 
         # Add parameters to wrapper
-#         self.add_parameter('range',
-#             flags=Instrument.FLAG_GETSET,
-#             units='', minval=0.1, maxval=1000, type=types.FloatType)
-#         self.add_parameter('trigger_source',
-#             flags=Instrument.FLAG_GETSET,
-#             units='')
-
+        self.add_parameter('ActiveInstrument',
+            flags=Instrument.FLAG_GETSET,
+            units='', minval=1, maxval=5, type=types.IntType)
+        self.add_parameter('readset', flags=Instrument.FLAG_GET,
+            units='AU',
+            type=types.FloatType,
+            tags=['setvalue'])
+        self.add_parameter('readmeas', flags=Instrument.FLAG_GET,
+            units='AU',
+            type=types.FloatType,
+            tags=['measvalue'])
+			
         # Add functions to wrapper
         self.add_function('reset')
         
-        self.add_function('set_active_instrument')
-        self.add_function('get_active_instrument')
-        self.add_function('get_active_instrument_type')
+#        self.add_function('set_ActiveInstrument')
+#        self.add_function('get_ActiveInstrument')
+        self.add_function('get_ActiveInstrument_type')
         self.add_function('get_instruments_list')
         self.add_function('output_on')
         self.add_function('output_off')
@@ -102,7 +107,7 @@ class itest(Instrument):
         if reset:
             self.reset()
         self.get_instruments_list()
-        self._activeinst = self.get_active_instrument()
+        self._activeinst = self.get_ActiveInstrument()
         self._activeBE586channel = 1
 
 #         else:
@@ -125,91 +130,75 @@ class itest(Instrument):
         logging.debug('Resetting instrument Itest')
         self._visainstrument.write('*RST')
 #         self.get_all()
-    def set_active_instrument(self, instNo = 1):
-        if instNo <1 or instNo >5:
-            logging.error('Unexpected Inst number')
-        else:
-            logging.debug('Set Itest active instrument to %i' % instNo)
-            self._visainstrument.write('INST %i' % instNo)
-            self._activeinst = instNo
-            insttemp = self.get_active_instrument()
-            if insttemp != self._activeinst:
-                logging.error('Set Itest active instrument failed!!!')
-            qt.msleep(0.005)
+
                 
     def get_output_state(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             return self.BE2102_get_output_state()
-        elif self.get_active_instrument_type() == '586':
+        elif self.get_ActiveInstrument_type() == '586':
             return self.BE586_get_output_state()
         else:
             print 'unfinished for other modules'
                 
     def get_sensor_state(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             return self.BE2102_get_sensor_state()
         else:
             print 'unfinished for other modules'
                     
     def output_on(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
 #             activeinstrtemp = self._activeinst
-#             self.set_active_instrument(val)
+#             self.set_ActiveInstrument(val)
             self.BE2102_output_on()
-        elif self.get_active_instrument_type() == '586':
+        elif self.get_ActiveInstrument_type() == '586':
             self.BE586_output_on()            
         else:
             print 'unfinished for other modules'
                        
     def output_off(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             self.BE2102_output_off()
-        elif self.get_active_instrument_type() == '586':
+        elif self.get_ActiveInstrument_type() == '586':
             self.BE586_output_off()   
         else:
             print 'unfinished for other modules'
                 
     def sensor_on(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             self.BE2102_sensor_on()
         else:
             print 'unfinished for other modules'
                         
     def sensor_off(self):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             self.BE2102_sensor_off()
         else:
             print 'unfinished for other modules'
                         
     def set_volt(self, val):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             self.BE2102_set_volt(val)
-        elif self.get_active_instrument_type() == '586':
+        elif self.get_ActiveInstrument_type() == '586':
             self.BE586_set_volt(val)   
         else:
             print 'unfinished for other modules'
 
     def set_voltrange(self, val):
-        if self.get_active_instrument_type() == '2102':
+        if self.get_ActiveInstrument_type() == '2102':
             self.BE2102_set_voltrange(val)
         else:
             print 'unfinished for other modules'
 
     def get_volt(self):
-        if self.get_active_instrument_type() == '2102':
-            return self.BE2102_get_volt_set()
-        elif self.get_active_instrument_type() == '586':
-            return self.BE586_get_volt_set()  
-        else:
-            print 'unfinished for other modules'
+#       Old function for read-out, links to get_readset()
+        logging.debug('Link to get_readset()')
+        return self.get_readset()
             
     def meas_volt(self):
-        if self.get_active_instrument_type() == '2102':
-            return self.BE2102_get_volt_measure()
-        elif self.get_active_instrument_type() == '586':
-            return self.BE586_get_volt_measure()
-        else:
-            print 'unfinished for other modules'
+#       Old function for read-out, links to get_readset()
+        logging.debug('Link to get_readmeas()')
+        return self.get_readmeas()
 
 # --------------------------------------
 #           internal functions
@@ -295,20 +284,49 @@ class itest(Instrument):
 # --------------------------------------
 #           parameters
 # --------------------------------------
-    def get_active_instrument(self):
+
+    def do_set_ActiveInstrument(self, instNo = 1):
+        if instNo <1 or instNo >5:
+            logging.error('Unexpected Inst number')
+        else:
+            logging.debug('Set Itest active instrument to %i' % instNo)
+            self._visainstrument.write('INST %i' % instNo)
+            self._activeinst = instNo
+            insttemp = self.get_ActiveInstrument()
+            if insttemp != self._activeinst:
+                logging.error('Set Itest active instrument failed!!!')
+            qt.msleep(0.005)
+			
+    def do_get_ActiveInstrument(self):
         actinsttemp = int(self._visainstrument.ask('INST ?'))
 #         if actinsttemp != self._activeinst:
 #             logging.warn('Active instrument incorrect, plz check. actintemp = %i, self.activinst = %i' % (actinsttemp, self._activeinst))
         self._activeinst = actinsttemp 
         return self._activeinst
 
+    def do_get_readset(self):
+        if self.get_ActiveInstrument_type() == '2102':
+            return self.BE2102_get_volt_set()
+        elif self.get_ActiveInstrument_type() == '586':
+            return self.BE586_get_volt_set()  
+        else:
+            print 'unfinished for other modules'
+
+    def do_get_readmeas(self):
+        if self.get_ActiveInstrument_type() == '2102':
+            return self.BE2102_get_volt_measure()
+        elif self.get_ActiveInstrument_type() == '586':
+            return self.BE586_get_volt_measure()
+        else:
+            print 'unfinished for other modules'
+			
     def get_instruments_list(self):
         templist = self._visainstrument.ask('INST:LIST?')
         self._instlist = templist.rsplit(';')
         print 'Itest instrument list:', self._instlist
         logging.debug('Itest instrument check:' + str(self._instlist))
         
-    def get_active_instrument_type(self):
+    def get_ActiveInstrument_type(self):
         activeinst = 'Getting active instrument fail!'
         for instindex in self._instlist:
             insttype = instindex.rsplit(',')
