@@ -242,7 +242,10 @@ class Data(SharedGObject):
         name = kwargs.get('name', '')
         infile = kwargs.get('infile', True)
         inmem = kwargs.get('inmem', False)
-
+        
+        self.copyScript = kwargs.get('copyScript', '') # Jens 25-03-14
+        print "copyScript: %s" % self.copyScript
+        
         self._inmem = inmem
         self._tempfile = kwargs.get('tempfile', False)
         self._temp_binary = kwargs.get('binary', True)
@@ -304,6 +307,19 @@ class Data(SharedGObject):
             self._filename = ''
             self._infile = infile
 
+        # Jens
+        # put a copy of the measurement script into data folder
+        if in_qtlab:
+            print "Copying measurement script to %s.py" % self._filename
+            import shutil
+            print "__file__: %s" % __file__
+            if self.copyScript is not None and self.copyScript != '':
+                scriptFile = qt.scripts[copyScript]._fn
+                print "scriptfile %s" % scriptFile
+                shutil.copyfile(scriptFile,  self._filename+".py")
+            
+            
+            
         # Don't hold references to temporary data files
         if not self._tempfile:
             Data._data_list.add(name, self)

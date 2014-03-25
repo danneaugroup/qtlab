@@ -138,3 +138,6 @@ class Scripts():
             funcname, ext = os.path.splitext(name)
             ns[funcname] = func
 
+    def update(self):
+        self.scripts_to_namespace(globals())
+ 
