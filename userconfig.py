@@ -69,6 +69,9 @@ print config['scriptdirs']
 ## so python can find your modules
 import sys
 sys.path.append('C:/scripts/lib')
+
+sys.path.insert(0,'C:/Users/labuser/workspace/QTlab/source') # Bug fix: QTlab imports global visa module instead of source/visa.py and complains about missing set_visa function
+
 #sys.path.append('d:/folder2')
 
 # Whether to start the GUI automatically
