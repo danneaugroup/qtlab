@@ -139,8 +139,8 @@ class Scripts():
             ns[funcname] = func
 
     def update(self):
-    """
-    update changes to measurement scripts
-    """
+        """
+        update changes to measurement scripts
+        """
         self.scripts_to_namespace(globals())
  
