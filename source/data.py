@@ -305,20 +305,7 @@ class Data(SharedGObject):
         else:
             self._dir = ''
             self._filename = ''
-            self._infile = infile
-
-        # Jens
-        # put a copy of the measurement script into data folder
-        if in_qtlab:
-            print "Copying measurement script to %s.py" % self._filename
-            import shutil
-            print "__file__: %s" % __file__
-            if self.copyScript is not None and self.copyScript != '':
-                scriptFile = qt.scripts[copyScript]._fn
-                print "scriptfile %s" % scriptFile
-                shutil.copyfile(scriptFile,  self._filename+".py")
-            
-            
+            self._infile = infile            
             
         # Don't hold references to temporary data files
         if not self._tempfile:
@@ -606,7 +593,20 @@ class Data(SharedGObject):
 
         if settings_file and in_qtlab:
             self._write_settings_file()
-
+        
+        
+        # Jens
+        # put a copy of the measurement script into data folder
+        if in_qtlab:
+            if self.copyScript is not None and self.copyScript != '':
+                print "Copying measurement script to %s.py" % self._filename
+                import shutil
+                print "__file__: %s" % __file__                
+                scriptFile = qt.scripts[self.copyScript]._fn
+                print "scriptfile %s" % scriptFile
+                shutil.copyfile(scriptFile,  "%s.py" % self.get_filepath())
+                
+                
         try:
             if in_qtlab:
                 self._stop_req_hid = \
