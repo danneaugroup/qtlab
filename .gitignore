@@ -7,3 +7,4 @@ tmp
 3rd_party
 *.lock
 *.cfg
+*.project
