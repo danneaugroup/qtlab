@@ -85,8 +85,6 @@ class AMI_430(Instrument):
         # Add functions to wrapper
         self.add_function('reset')
         self.add_function('get_all')
-        self.add_function('get_coilconst')
-        self.add_function('set_coilconst')
         self.add_function('get_target_field')
         self.add_function('set_target_field')
         self.add_function('set_ramp_auto')
@@ -104,7 +102,8 @@ class AMI_430(Instrument):
             self.reset()
         self._visainstrument.read()
         self._visainstrument.read()
-        self.set_field_unit(1)
+        self.set_field_unit('Tesla')
+        self.set_ramprate_unit('s')
         self.get_all()
 
 # --------------------------------------
@@ -184,6 +183,18 @@ class AMI_430(Instrument):
         else:
             self._visainstrument.write('CONFigure:CURRent:LIMit %f' % val)
             logging.debug('Set AMI_430 current limit to %f A' % val)
+
+    def get_magnet_current_rating(self):
+        tempcurrrate = float(self._visainstrument.ask('CURRent:RATING?'))
+        logging.debug('Read AMI_430 magnet current rating as %f A' % tempcurrrate)
+        return tempcurrrate
+
+    def set_magnet_current_rating(self, val):
+        if val <= 0:
+            logging.error('AMI_430 magnet current rating has to be a non-zero positive value!')
+        else:
+            self._visainstrument.write('CONFigure:CURRent:RATING %f' % val)
+            logging.debug('Set AMI_430 magnet current rating to %f A' % val)
             
     def get_pswitch_state(self):
         pswitchstate = ['not installed', 'installed']
@@ -209,6 +220,15 @@ class AMI_430(Instrument):
         self._ramprateunit = self._ramprateunits[temprrunit]
         logging.debug('Set AMI_430 ramp rate unit to %s .' % self._ramprateunit)
 
+    def get_rampsegments(self):
+        rampratesegm = int(self._visainstrument.ask('RAMP:RATE:SEGments?'))
+        logging.debug('Read AMI_430 has %s ramp segments.' % rampratesegm)
+        return rampratesegm
+
+    def set_rampsegments(self, val):
+        self._visainstrument.write('CONFigure:RAMP:RATE:SEGments %i' % val)
+        logging.debug('Set AMI_430 with %s ramp segments.' % val)
+        
     def get_field_unit(self):
         tempfunit = int(self._visainstrument.ask('FIELD:UNITS?'))
         self._fieldunit = self._fieldunits[tempfunit]
@@ -301,8 +321,14 @@ class AMI_430(Instrument):
         logging.debug('Read AMI_430 ramp state as %s' % self._rampstate)
         return self._rampstate
                     
+    def get_stability(self):
+        tempstab = float(self._visainstrument.ask('STABility?'))
+        logging.debug('Read AMI_430 stability as %f percent.' % (tempstab))
+        return temprrcurr
 
-
+    def set_stability(self, stabset = 0):
+        self._visainstrument.write('CONFigure:STABility %f' % (stabset))
+        logging.debug('Set AMI_430 stability to %f percent.' % (stabset))
 # --------------------------------------
 #           internal functions
 # --------------------------------------
