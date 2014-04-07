@@ -729,6 +729,12 @@ class Keithley_6430(Instrument):
         '''
         logging.debug('Set source_current_compliance to %s' % val)
         self._visainstrument.write('SOUR:VOLT:LEV %s' % str(val).upper())
+        
+    def set_volt(self, val):
+        '''
+        Shortcut for do_set_source_voltage_level
+        '''
+        self.do_set_source_voltage_level(val)
 
     def do_get_source_voltage_level(self):
         '''
@@ -744,6 +750,12 @@ class Keithley_6430(Instrument):
         logging.debug('Get source_current_level: %s' % r)
         return float(r)
 
+    def get_volt(self):
+        '''
+        Shortcut for do_get_source_voltage_level
+        '''
+        return self.do_get_source_voltage_level()
+        
     def do_set_source_voltage_compliance(self, val):
         '''
         Set source_voltage_compliance to the specified value.
