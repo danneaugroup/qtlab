@@ -203,6 +203,13 @@ class Yokogawa_7651(Instrument):
         logging.debug('Link to do_get_readval()')
         return self.do_get_readval()
 
+    def get_volt(self):
+        '''
+        Old function for read-out, links to get_readval()
+        '''
+        #logging.debug('Link to do_get_readval()')
+        return float(self.do_get_readval()[4:]) # readval returns string "NDCV+XX.XXXEX", remove first 4 letters and convert to float
+		
     def send_trigger(self):
         '''
         Send trigger to Yokogawa 7651
@@ -273,7 +280,7 @@ class Yokogawa_7651(Instrument):
             value(float) : currrent value on input
         '''
 
-        logging.debug('Read current value')
+        # logging.debug('Read current value')
         text = self._visainstrument.ask('OD')
         return text
 
