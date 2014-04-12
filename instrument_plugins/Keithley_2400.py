@@ -723,7 +723,14 @@ class Keithley_2400(Instrument):
         logging.debug('Get source_current_level: %s' % r)
         return float(r)
 
-
+        
+    def get_cur(self):
+        """
+        Shortcut for do_get_source_current_level
+        """
+        self.do_get_source_current_level()
+        
+        
     def do_set_source_voltage_level(self, val):
         '''
         Set source_voltage_level for the designated mode.
@@ -1454,6 +1461,15 @@ class Keithley_2400(Instrument):
         '''
         logging.debug('Set sense_voltage_range to %s' % val)
         self._visainstrument.write(':SENS:VOLT:RANG %s' % val)
+
+    """        
+    def set_range(self,val):
+        """
+        Shortcut for do_set_sense_voltage_range
+        """
+        
+        self.do_set_sense_voltage_range(val)
+    """
 
     def do_get_sense_voltage_range(self):
         '''

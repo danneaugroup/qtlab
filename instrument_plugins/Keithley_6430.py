@@ -1448,6 +1448,16 @@ class Keithley_6430(Instrument):
         logging.debug('Set sense_voltage_range to %s' % val)
         self._visainstrument.write(':SENS:VOLT:RANG %s' % val)
 
+    """        
+    def set_range(self,val):
+        """
+        Shortcut for do_set_sense_voltage_range
+        """
+        
+        self.do_set_sense_voltage_range(val)
+    """
+        
+
     def do_get_sense_voltage_range(self):
         '''
         Get the range for voltage measurements, in volts.

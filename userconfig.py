@@ -13,7 +13,7 @@ config.remove([
             ])
 
 # QTLab instance name and port for networked operation
-config['instance_name'] = 'qtlab_dn6'
+config['instance_name'] = 'qtlab_probestation'
 config['port'] = 12002
 
 # A list of allowed IP ranges for remote connections
@@ -23,7 +23,7 @@ config['allowed_ips'] = (
 )
 
 config['servers'] = (
-        '141.52.95.219', #intdanneau4             
+ #       '141.52.95.219', #intdanneau4             
 )
 
 # Start instrument server to share with instruments with remote QTLab?
