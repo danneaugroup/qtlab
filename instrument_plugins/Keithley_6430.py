@@ -716,6 +716,12 @@ class Keithley_6430(Instrument):
         logging.debug('Get source_current_level: %s' % r)
         return float(r)
 
+    def get_cur(self):
+        """
+        Shortcut for do_get_source_current_level
+        """
+        self.do_get_source_current_level()
+
 
     def do_set_source_voltage_level(self, val):
         '''
