@@ -727,7 +727,7 @@ class Keithley_2400(Instrument):
         """
         Shortcut for do_get_source_current_level
         """
-        self.do_get_source_current_level()
+        return self.do_get_source_current_level()
 
     def do_set_source_voltage_level(self, val):
         '''
