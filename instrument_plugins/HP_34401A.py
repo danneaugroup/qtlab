@@ -34,7 +34,7 @@ Function to convert boolean to 'ON' or 'OFF'
     else:
         return "OFF"
 
-class x_HP_34401A(Instrument):
+class HP_34401A(Instrument):
     '''
 This is the driver for the HP 34401A Multimeter
 #still needs a bit of debugging
