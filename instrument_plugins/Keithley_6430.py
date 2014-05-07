@@ -381,7 +381,13 @@ class Keithley_6430(Instrument):
         logging.debug('Read: %s' % s)
         
         return [float(n) for n in s.split(',')][:3] # We don't know what [3:5] are!!!
-
+    
+    def get_cur(self):
+        """
+        Shortcut for self.read()[1]
+        """
+        return self.read()[1]
+        
     def send_init(self):
         '''
         Go into the arm/trigger layers from the idle mode.
@@ -715,12 +721,6 @@ class Keithley_6430(Instrument):
         r = self._visainstrument.ask('SOUR:CURR:LEV?')
         logging.debug('Get source_current_level: %s' % r)
         return float(r)
-
-    def get_cur(self):
-        """
-        Shortcut for do_get_source_current_level
-        """
-        self.do_get_source_current_level()
 
 
     def do_set_source_voltage_level(self, val):
