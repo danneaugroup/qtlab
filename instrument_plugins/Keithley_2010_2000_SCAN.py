@@ -1,4 +1,4 @@
-# Keithley_2010_2001_SCAN.py driver for Keithley 2010 DMM with 2001 SCAN Card
+# Keithley_2010_2000_SCAN.py driver for Keithley 2010 DMM with 2000 SCAN Card
 # Pieter de Groot <pieterdegroot@gmail.com>, 2008
 # Martijn Schaafsma <qtlab@mcschaafsma.nl>, 2008
 # Reinier Heeres <reinier@heeres.eu>, 2008 - 2010
@@ -42,13 +42,13 @@ def bool_to_str(val):
     else:
         return "OFF"
 
-class Keithley_2010_2001_SCAN(Instrument):
+class Keithley_2010_2000_SCAN(Instrument):
     '''
-    This is the driver for the Keithley_2010-2001_SCAN Multimeter
+    This is the driver for the Keithley_2010-2000_SCAN Multimeter
 
     Usage:
     Initialize with
-    <name> = instruments.create('<name>', 'Keithley_2010_2001_SCAN',
+    <name> = instruments.create('<name>', 'Keithley_2010_2000_SCAN',
         address='<GBIP address>',
         reset=<bool>,
         change_display=<bool>,
@@ -58,7 +58,7 @@ class Keithley_2010_2001_SCAN(Instrument):
     def __init__(self, name, address, reset=False,
             change_display=True, change_autozero=True):
         '''
-        Initializes the Keithley_2010_2001_SCAN, and communicates with the wrapper.
+        Initializes the Keithley_2010_2000_SCAN, and communicates with the wrapper.
 
         Input:
             name (string)           : name of the instrument
@@ -72,7 +72,7 @@ class Keithley_2010_2001_SCAN(Instrument):
             None
         '''
         # Initialize wrapper functions
-        logging.info('Initializing instrument Keithley_2010_2001_SCAN')
+        logging.info('Initializing instrument Keithley_2010_2000_SCAN')
         Instrument.__init__(self, name, tags=['physical'])
 
         # Add some global constants
