@@ -114,6 +114,9 @@ class itest(Instrument):
 # #             self.get_all()
 #             self.set_defaults()
 
+    def __repr__(self):
+        return "iTest System at %s, current channel: %s" % (self._address, self._activeinst)
+        
 # --------------------------------------
 #           functions
 # --------------------------------------
