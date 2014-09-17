@@ -152,6 +152,12 @@ class AMI_430(Instrument):
 #         self._supptype = self._supptypes[tempsupptype]
 #         logging.debug('Read AMI_430 supply type as %s.' % self._supptype)
 #         return self._supptype
+    
+    def get_field(self):
+        """
+        Returns the current B field
+        """
+        return float(self._visainstrument.ask("CURRent:MAGnet?"))*self.get_coilconst()
      
     def get_supply_mode(self):
         tempsuppmode = int(self._visainstrument.ask('SUPPly:MODE?'))
