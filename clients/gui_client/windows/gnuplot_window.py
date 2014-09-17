@@ -21,6 +21,7 @@ import qtclient as qt
 #from plot_engines import qtgnuplot
 import logging
 
+import os
 from gettext import gettext as _L
 
 import lib.gui as gui
@@ -286,7 +287,9 @@ class GnuplotWindow(qtwindow.QTWindow):
         except:
             pass
         self._save_as_dropdown.set_items(itemlist)
-        self._save_as_dropdown.set_item('gp')
+        self._save_as_dropdown.set_item('png')
+        
+        self._filename_entry.set_text("%s_%s.png" % (os.path.splitext(plot.get_first_filepath())[0] , plot.get_name() ))
 
         try:
             itemlist = plot.get_legend_positions()
