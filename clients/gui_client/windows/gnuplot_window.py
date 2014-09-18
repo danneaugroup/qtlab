@@ -287,9 +287,9 @@ class GnuplotWindow(qtwindow.QTWindow):
         except:
             pass
         self._save_as_dropdown.set_items(itemlist)
-        self._save_as_dropdown.set_item('png')
+        self._save_as_dropdown.set_item('pdf')
         
-        self._filename_entry.set_text("%s_%s.png" % (os.path.splitext(plot.get_first_filepath())[0] , plot.get_name() ))
+        self._filename_entry.set_text("%s_%s.pdf" % (os.path.splitext(plot.get_first_filepath())[0] , plot.get_name() ))
 
         try:
             itemlist = plot.get_legend_positions()
